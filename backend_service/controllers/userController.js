@@ -1,7 +1,7 @@
 const express = require('express');
 const User = require('../models/userModel');
 
-exports.createUser = async (req, res, next) => {
+exports.signup = async (req, res, next) => {
   const user = await User.create(req.body);
 
   if (!user) {

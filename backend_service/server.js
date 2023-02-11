@@ -23,6 +23,12 @@ mongoose
 
 app.use(express.json());
 app.use('/user', userRouter);
+app.use('*', (req, res, next) => {
+  res.status(403).json({
+    status: 'Error',
+    message: 'This Url hasnot setup yet!',
+  });
+});
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => {
