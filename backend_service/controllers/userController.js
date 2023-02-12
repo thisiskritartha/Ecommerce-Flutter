@@ -1,8 +1,9 @@
 const express = require('express');
 const User = require('../models/userModel');
 const AppError = require('../utlis/appError');
+const CatchAsync = require('../utlis/catchAsync');
 
-exports.signup = async (req, res, next) => {
+exports.signup = CatchAsync(async (req, res, next) => {
   const user = await User.create(req.body);
 
   if (!user) {
@@ -21,9 +22,9 @@ exports.signup = async (req, res, next) => {
       user,
     },
   });
-};
+});
 
-exports.login = async (req, res, next) => {
+exports.login = CatchAsync(async (req, res, next) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
@@ -42,7 +43,7 @@ exports.login = async (req, res, next) => {
       user,
     },
   });
-};
+});
 
 exports.getAllUsers = async (req, res, next) => {
   const users = await User.find();
@@ -65,7 +66,7 @@ exports.getAllUsers = async (req, res, next) => {
   });
 };
 
-exports.getUser = async (req, res, next) => {
+exports.getUser = CatchAsync(async (req, res, next) => {
   const user = await User.find({ userId: req.params.userId });
 
   if (!user) {
@@ -82,4 +83,4 @@ exports.getUser = async (req, res, next) => {
       user,
     },
   });
-};
+});

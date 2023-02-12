@@ -4,6 +4,8 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
 const userRouter = require('./Routes/userRouter');
+const errorController = require('./controllers/errorController');
+const AppError = require('./utlis/appError');
 
 const app = express();
 dotenv.config({ path: './config.env' });
@@ -24,11 +26,9 @@ mongoose
 app.use(express.json());
 app.use('/user', userRouter);
 app.use('*', (req, res, next) => {
-  res.status(403).json({
-    status: 'Error',
-    message: 'This Url hasnot setup yet!',
-  });
+  next(new AppError(`Can't find ${req.originalUrl} on this server...`, 404));
 });
+app.use(errorController);
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => {
